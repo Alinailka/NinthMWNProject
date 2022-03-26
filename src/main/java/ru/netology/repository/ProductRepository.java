@@ -1,6 +1,14 @@
-package ru.netology.domain;
+package ru.netology.repository;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.netology.domain.Product;
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ProductRepository {
+
     private Product[] items = new Product[0];
 
     //метод умеет сохранять продукт

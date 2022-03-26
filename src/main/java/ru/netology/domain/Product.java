@@ -1,9 +1,12 @@
 package ru.netology.domain;
 
+import ru.netology.repository.ProductRepository;
+
 public class Product {
-private int id;
-private String name;
-private int price ;
+    private int id;
+    private String name;
+    private int price;
+
 
     public Product() {
     }
