@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.netology.domain.Product;
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+
 public class ProductRepository {
 
     private Product[] items = new Product[0];
@@ -23,6 +21,7 @@ public class ProductRepository {
 
     //умеет возвращать все продукты
     public Product[] findAll() {
+
         return items;
     }
 

@@ -1,7 +1,12 @@
 package ru.netology.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.netology.repository.ProductRepository;
 
+
+@Data
 public class Product {
     private int id;
     private String name;
