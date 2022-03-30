@@ -7,9 +7,8 @@ import ru.netology.domain.Product;
 
 public class ProductRepository {
 
-    private Product[] items = new Product[0];
+    public Product[] items = new Product[0];
 
-    //метод умеет сохранять продукт
     public void save(Product item) {
         int length = items.length + 1;
         Product[] tmp = new Product[length];
@@ -19,13 +18,10 @@ public class ProductRepository {
         items = tmp;
     }
 
-    //умеет возвращать все продукты
     public Product[] findAll() {
-
         return items;
     }
 
-    //умеет находить продукт по id
     public Product findById(int id) {
         for (Product item : items) {
             if (item.getId() == id) {
@@ -35,7 +31,6 @@ public class ProductRepository {
         return null;
     }
 
-    // умеет удалять по id
     public Product removeById(int id) {
         int lenght = items.length - 1;
         Product[] tmp = new Product[lenght];
@@ -47,8 +42,8 @@ public class ProductRepository {
             }
         }
         items = tmp;
-        return null;}
-
+        return null;
+    }
 }
 
 

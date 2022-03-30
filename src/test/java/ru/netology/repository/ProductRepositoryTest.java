@@ -11,7 +11,6 @@ class ProductRepositoryTest {
     private ProductRepository repository = new ProductRepository();
     private Book coreJava = new Book();
 
-
     @Test
     public void saveOneItem() {
         repository.save(coreJava);
@@ -39,7 +38,6 @@ class ProductRepositoryTest {
         Product expected = second;
         assertEquals(expected, actual);
     }
-
 
     @Test
     public void findByIdNull() {
@@ -69,9 +67,9 @@ class ProductRepositoryTest {
         assertArrayEquals(expected, actual);
     }
 
-
     @Test
-    void removeById() {ProductRepository repository = new ProductRepository();
+    void removeById() {
+        ProductRepository repository = new ProductRepository();
         int idToRemove = 3;
         Product first = new Book(1, "FairyTale", 10, "Pushkin");
         Product second = new Book(2, "Stories", 12, "Chekhov");
@@ -84,9 +82,8 @@ class ProductRepositoryTest {
 
         repository.removeById(idToRemove);
 
-        Product [] actual = repository.findAll();
-        Product [] expected = new Product[] {first, second, fourth};
+        Product[] actual = repository.findAll();
+        Product[] expected = new Product[]{first, second, fourth};
         assertArrayEquals(expected, actual);
-
     }
 }

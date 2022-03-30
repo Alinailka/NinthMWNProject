@@ -1,64 +1,48 @@
 package ru.netology.manager;
 
+import ru.netology.domain.Book;
 import ru.netology.domain.Product;
+import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
 public class Manager {
 
     private Product[] products = new Product[0];
-
-   private ProductRepository repository = new ProductRepository();
-
-//    public Manager(ProductRepository repository) {
-//        this.repository = repository;
-//    }
-//
-//    public Manager(Product[] products) {
-//        this.products = products;
-//    }
+    private ProductRepository repository = new ProductRepository();
 
     public void add(Product product) {
-        int length = products.length + 1;
-        Product[] tmp = new Product[length];
-        for (int i = 0; i < products.length; i++) {
-            tmp[i] = products[i];
-        }
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = product;
-        products = tmp;
+        repository.save(product);
+        products = repository.findAll();
     }
-public Product[] getAll() {
-        Product [] result = new Product[products.length];
-        for (int i=0; i < result.length; i++) {
-            int index = products.length - i - 1;
-            result[i] = products[index];
-        }
+
+    public Product[] getAll() {
+        return products;
+    }
+
+    public Product[] searchBy(String text) {
+        Product[] result = new Product[0];
+        for (Product product : repository.findAll())
+            if (matches(product, text)) {
+                int length = result.length + 1;
+                Product[] tmp = new Product[length];
+                System.arraycopy(result, 0, tmp, 0, result.length);
+                int lastIndex = tmp.length - 1;
+                tmp[lastIndex] = product;
+                result = tmp;
+            }
         return result;
-        }
-
-
-
-        public Product[] searchBy(String text) {
-            Product[] result = new Product[0]; // тут будем хранить подошедшие запросу продукты
-            for (Product product : repository.findAll()) {
-                if (matches(product, text)) {
-                    // "добавляем в конец" массива result продукт product
-                }
-            }
-            return result;
-        }
-
-        // метод определения соответствия товара product запросу search
-        public boolean matches(Product product, String search) {
-            if (product.getName().contains(search)) {
-                return true;
-            } else {
-                return false;
-            }
-            // или в одну строку:
-            // return product.getName().contains(search);
-        }
     }
+
+    public boolean matches(Product product, String search) {
+        if (product.getName().contains(search)) {
+            return true;
+        } else {
+            return false;
+        }
+        // или в одну строку:
+        // return product.getName().contains(search);
+    }
+}
 
 
 

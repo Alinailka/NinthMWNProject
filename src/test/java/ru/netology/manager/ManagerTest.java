@@ -24,7 +24,7 @@ class ManagerTest {
         manager.add(third);
 
         manager.add(fourth);
-        Product[] expected = {fourth, third, second, first};
+        Product[] expected = new Product[]{first, second, third, fourth};
         Product[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
     }
@@ -32,6 +32,7 @@ class ManagerTest {
 
     @Test
     void searchByName() {
+        ProductRepository repository = new ProductRepository();
         Product first = new Book(1, "FairyTale", 10, "Pushkin");
         Product second = new Book(2, "Stories", 12, "Chekhov");
         Product third = new Smartphone(3, "NewModel", 100, "Apple");
@@ -42,14 +43,11 @@ class ManagerTest {
         manager.add(third);
         manager.add(fourth);
 
-        manager.searchBy("Stories");
-
-        Product[] expected = new Product[] {second};
+        Product[] expected = new Product[]{second};
         Product[] actual = manager.searchBy("Stories");
-
         assertArrayEquals(expected, actual);
-
     }
+
     @Test
     void searchByNoName() {
 
@@ -65,7 +63,6 @@ class ManagerTest {
         manager.add(fourth);
 
         manager.searchBy("Cool");
-
         Product[] actual = manager.searchBy("Cool");
         Product[] expected = new Product[0];
         assertArrayEquals(expected, actual);
@@ -85,15 +82,12 @@ class ManagerTest {
         manager.add(third);
 
         manager.add(fourth);
-
         manager.searchBy("Stories");
-
         boolean expected = true;
-
         boolean actual = manager.matches(second, "Stories");
-
         assertEquals(expected, actual);
     }
+
     @Test
     void matchesFalse() {
 
@@ -108,13 +102,9 @@ class ManagerTest {
         manager.add(third);
 
         manager.add(fourth);
-
         manager.searchBy("Cool");
-
         boolean expected = false;
-
         boolean actual = manager.matches(second, "Cool");
-
         assertEquals(expected, actual);
     }
 }
