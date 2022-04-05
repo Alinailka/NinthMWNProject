@@ -7,21 +7,19 @@ import ru.netology.repository.ProductRepository;
 
 public class Manager {
 
-    private Product[] products = new Product[0];
     private ProductRepository repository = new ProductRepository();
 
     public void add(Product product) {
         repository.save(product);
-        products = repository.findAll();
     }
 
     public Product[] getAll() {
-        return products;
+        return repository.findAll();
     }
 
     public Product[] searchBy(String text) {
         Product[] result = new Product[0];
-        for (Product product : repository.findAll())
+        for (Product product : repository.findAll()) {
             if (matches(product, text)) {
                 int length = result.length + 1;
                 Product[] tmp = new Product[length];
@@ -30,6 +28,7 @@ public class Manager {
                 tmp[lastIndex] = product;
                 result = tmp;
             }
+        }
         return result;
     }
 

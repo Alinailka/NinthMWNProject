@@ -1,5 +1,6 @@
 package ru.netology.manager;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Book;
 import ru.netology.domain.Product;
@@ -12,36 +13,31 @@ class ManagerTest {
 
     Manager manager = new Manager();
 
-    @Test
-    void add() {
-        ProductRepository repo = new ProductRepository();
-        Product first = new Book(1, "FairyTale", 10, "Pushkin");
-        Product second = new Book(2, "Stories", 12, "Chekhov");
-        Product third = new Smartphone(3, "NewModel", 100, "Apple");
-        Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
+    Product first = new Book(1, "FairyTale", 10, "Pushkin");
+    Product second = new Book(2, "Stories", 12, "Chekhov");
+    Product third = new Smartphone(3, "NewModel", 100, "Apple");
+    Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
+    Product fifth = new Book(5, "FairyTale", 15, "Ershov");
+    Book one = new Book(6, "Olla", 10, "Sting");
+
+    @BeforeEach
+    void preAdd(){
         manager.add(first);
         manager.add(second);
         manager.add(third);
-
         manager.add(fourth);
+    }
+
+    @Test
+    void add() {
+
         Product[] expected = new Product[]{first, second, third, fourth};
         Product[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
     }
 
-
     @Test
     void searchByName() {
-        ProductRepository repository = new ProductRepository();
-        Product first = new Book(1, "FairyTale", 10, "Pushkin");
-        Product second = new Book(2, "Stories", 12, "Chekhov");
-        Product third = new Smartphone(3, "NewModel", 100, "Apple");
-        Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
-
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
 
         Product[] expected = new Product[]{second};
         Product[] actual = manager.searchBy("Stories");
@@ -51,60 +47,43 @@ class ManagerTest {
     @Test
     void searchByNoName() {
 
-        String searchByName = "Cool";
-        Product first = new Book(1, "FairyTale", 10, "Pushkin");
-        Product second = new Book(2, "Stories", 12, "Chekhov");
-        Product third = new Smartphone(3, "NewModel", 100, "Apple");
-        Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
-
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-
-        manager.searchBy("Cool");
         Product[] actual = manager.searchBy("Cool");
         Product[] expected = new Product[0];
+        assertArrayEquals(expected, actual);
+    }
+
+//    @Test
+//    void searchByAuthorBook() {
+//        manager.add(first);
+//        manager.add(second);
+//        manager.add(third);
+//        manager.add(fourth);
+//        manager.add(one);
+//        Product[] actual = manager.searchBy("Sting");
+//        Product[] expected = new Product[0];
+//        assertArrayEquals(expected, actual);
+//    }
+
+    @Test
+    void searchByNameIfSeveralSame() {
+
+        manager.add(fifth);
+        Product[] actual = manager.searchBy("FairyTale");
+        Product[] expected = new Product[]{first, fifth};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void matchesTrue() {
 
-        String searchByName = "Stories";
-        Product first = new Book(1, "FairyTale", 10, "Pushkin");
-        Product second = new Book(2, "Stories", 12, "Chekhov");
-        Product third = new Smartphone(3, "NewModel", 100, "Apple");
-        Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
-
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-
-        manager.add(fourth);
         manager.searchBy("Stories");
-        boolean expected = true;
-        boolean actual = manager.matches(second, "Stories");
-        assertEquals(expected, actual);
+        assertTrue(manager.matches(second, "Stories"));
     }
 
     @Test
     void matchesFalse() {
 
-        String searchByName = "Cool";
-        Product first = new Book(1, "FairyTale", 10, "Pushkin");
-        Product second = new Book(2, "Stories", 12, "Chekhov");
-        Product third = new Smartphone(3, "NewModel", 100, "Apple");
-        Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
-
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-
-        manager.add(fourth);
         manager.searchBy("Cool");
-        boolean expected = false;
-        boolean actual = manager.matches(second, "Cool");
-        assertEquals(expected, actual);
+        assertFalse(manager.matches(second, "Cool"));
     }
 }
