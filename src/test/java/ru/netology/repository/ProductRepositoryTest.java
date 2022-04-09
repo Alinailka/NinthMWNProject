@@ -1,9 +1,7 @@
 package ru.netology.repository;
 
 import org.junit.jupiter.api.Test;
-import ru.netology.domain.Book;
-import ru.netology.domain.Product;
-import ru.netology.domain.Smartphone;
+import ru.netology.domain.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +13,56 @@ class ProductRepositoryTest {
     Product second = new Book(2, "Stories", 12, "Chekhov");
     Product third = new Smartphone(3, "NewModel", 100, "Apple");
     Product fourth = new Smartphone(4, "OldModel", 70, "Peach");
+
+    @Test
+    public void removeByIdWithNFE() {
+        repository.save(first);
+        repository.save(second);
+        repository.save(third);
+        repository.save(fourth);
+
+        repository.removeById(3);
+
+        Product[] actual = repository.findAll();
+        Product[] expected = new Product[]{first, second, fourth};
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void notRemoveByIdWithNFE() {
+        repository.save(first);
+        repository.save(second);
+        repository.save(third);
+        repository.save(fourth);
+
+        repository.removeById(5);
+
+        assertThrows(NotFoundException.class, () -> {
+            repository.removeById(5);
+        });
+    }
+
+    @Test
+    public void saveOneItemWithAEE() {
+        repository.save(first);
+        repository.save(second);
+
+        Product[] expected = new Product[]{first, second};
+        Product[] actual = repository.findAll();
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void saveOneItemIfAlreadyWithAEE() {
+        repository.save(first);
+        repository.save(second);
+
+        repository.save(first);
+
+        assertThrows(AlreadyExistsException.class, () -> {
+            repository.save(first);
+        });
+    }
 
     @Test
     public void saveOneItem() {

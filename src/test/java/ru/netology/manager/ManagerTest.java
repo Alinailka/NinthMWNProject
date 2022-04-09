@@ -52,18 +52,6 @@ class ManagerTest {
         assertArrayEquals(expected, actual);
     }
 
-//    @Test
-//    void searchByAuthorBook() {
-//        manager.add(first);
-//        manager.add(second);
-//        manager.add(third);
-//        manager.add(fourth);
-//        manager.add(one);
-//        Product[] actual = manager.searchBy("Sting");
-//        Product[] expected = new Product[0];
-//        assertArrayEquals(expected, actual);
-//    }
-
     @Test
     void searchByNameIfSeveralSame() {
 

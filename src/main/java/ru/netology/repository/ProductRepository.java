@@ -1,5 +1,7 @@
 package ru.netology.repository;
 
+import ru.netology.domain.AlreadyExistsException;
+import ru.netology.domain.NotFoundException;
 import ru.netology.domain.Product;
 
 public class ProductRepository {
@@ -9,14 +11,13 @@ public class ProductRepository {
     public void save(Product item) {
         int length = items.length + 1;
         Product[] tmp = new Product[length];
+        if (findById(item.getId()) != null) {
+            throw new AlreadyExistsException(item.getId());
+        }
         System.arraycopy(items, 0, tmp, 0, items.length);
         int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = item;
+        tmp[lastIndex] = item; //положить в ячейку предмет с принятым id
         items = tmp;
-    }
-
-    public Product[] findAll() {
-        return items;
     }
 
     public Product findById(int id) {
@@ -28,7 +29,14 @@ public class ProductRepository {
         return null;
     }
 
+    public Product[] findAll() {
+        return items;
+    }
+
     public Product removeById(int id) {
+        if (findById(id) == null) {
+            throw new NotFoundException(id);
+        }
         int lenght = items.length - 1;
         Product[] tmp = new Product[lenght];
         int index = 0;
@@ -39,6 +47,6 @@ public class ProductRepository {
             }
         }
         items = tmp;
-        return null;
+       return null;
     }
 }
