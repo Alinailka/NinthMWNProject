@@ -20,6 +20,11 @@ public class ProductRepository {
         items = tmp;
     }
 
+    public Product[] findAll() {
+        return items;
+    }
+
+
     public Product findById(int id) {
         for (Product item : items) {
             if (item.getId() == id) {
@@ -27,10 +32,6 @@ public class ProductRepository {
             }
         }
         return null;
-    }
-
-    public Product[] findAll() {
-        return items;
     }
 
     public Product removeById(int id) {

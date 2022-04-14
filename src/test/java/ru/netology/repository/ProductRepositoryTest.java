@@ -35,8 +35,6 @@ class ProductRepositoryTest {
         repository.save(third);
         repository.save(fourth);
 
-        repository.removeById(5);
-
         assertThrows(NotFoundException.class, () -> {
             repository.removeById(5);
         });
@@ -56,8 +54,6 @@ class ProductRepositoryTest {
     public void saveOneItemIfAlreadyWithAEE() {
         repository.save(first);
         repository.save(second);
-
-        repository.save(first);
 
         assertThrows(AlreadyExistsException.class, () -> {
             repository.save(first);
